@@ -1,5 +1,5 @@
 let buttonMargin = 100;
-let button1Hover; let button1Active; let button1X; let button1Y; let knobAmplitude1Hover; let knobAmplitude1Value = 0;
+let button1Hover; let button1Active; let button1X; let button1Y; let knobAmplitude1Hover; let knobAmplitude1Value;
 let button2Hover; let button2Active; let button2X; let button2Y; let knobAmplitude2Hover;
 let button3Hover; let button3Active; let button3X; let button3Y; let knobAmplitude3Hover;
 let sinusIcon;
@@ -27,13 +27,16 @@ function draw() {
     tegnInteraktiv();
 
     if(mouseIsPressed) {
-        if(knobAmplitude1Hover) { if(!dragging){startX = mouseX; startY = mouseY} dragging = true;}
+        if(knobAmplitude1Hover) { if(!dragging){startX = mouseX; startY = mouseY} dragging = true; knobAmplitude1Value=10;}
         
-        if(knobAmplitude1Value>=0 && knobAmplitude1Value<=100) { knobAmplitude1Value=startY-mouseY; }
+        if(knobAmplitude1Value>0 && knobAmplitude1Value<100) { knobAmplitude1Value=(startY-mouseY); } 
+        else if(knobAmplitude1Value<=0){ knobAmplitude1Value = 0; }
+        else if(knobAmplitude1Value>=100){ knobAmplitude1Value = 100; }
     } else {
         dragging = false;
     }
-    console.log(dragging,knobAmplitude1Value, startX, startY)
+    console.log(dragging,knobAmplitude1Value, startX, startY);
+
 
 }
 
@@ -93,10 +96,14 @@ function mouseDragged() {
 
 function createKnob(x,y,d) { 
     circle(x, y, d);
-    linjeFraVinkel(x, y, 55, d/2);
-    linjeFraVinkel(x, y, 125, d/2);
-    circle(x, y, d*0.7);
+    linjeFraVinkel(x, y, 2, d/2);
+    linjeFraVinkel(x, y, 1, d/2);
+    fill(255,0,0);
+    if((2+(knobAmplitude1Value/100)*(2*PI-1))>=2 && (2+(knobAmplitude1Value/100)*(2*PI-1))<=(2*PI+1)) {
+        arc(x, y, 70, 70, 2, 2+(knobAmplitude1Value/100)*(2*PI-1));
+    }
+    fill(255); circle(x, y, d*0.7); 
 }
 
 function centerRect(x,y,w,h) {rect(x-w/2, y-h/2, w, h)}
-function linjeFraVinkel(x,y,v,l) {line(x,y,x+cos(v*(PI/180))*l,y+sin(v*(PI/180))*l)}
+function linjeFraVinkel(x,y,v,l) {line(x,y,x+cos(v)*l,y+sin(v)*l)}

@@ -1,7 +1,7 @@
 let buttonMargin = 100;
 let button1Hover; let button1Active; let button1X; let button1Y; let knobAmplitude1Hover; let knobAmplitude1Value;
-let button2Hover; let button2Active; let button2X; let button2Y; let knobAmplitude2Hover;
-let button3Hover; let button3Active; let button3X; let button3Y; let knobAmplitude3Hover;
+let button2Hover; let button2Active; let button2X; let button2Y; let knobAmplitude2Hover; let knobAmplitude2Value;
+let button3Hover; let button3Active; let button3X; let button3Y; let knobAmplitude3Hover; let knobAmplitude3Value;
 let sinusIcon;
 let sawIcon;
 let squareIcon;
@@ -26,16 +26,7 @@ function draw() {
     checkHover();
     tegnInteraktiv();
 
-    if(mouseIsPressed) {
-        if(knobAmplitude1Hover) { if(!dragging){startX = mouseX; startY = mouseY} dragging = true; knobAmplitude1Value=10;}
-        
-        if(knobAmplitude1Value>0 && knobAmplitude1Value<100) { knobAmplitude1Value=(startY-mouseY); } 
-        else if(knobAmplitude1Value<=0){ knobAmplitude1Value = 0; }
-        else if(knobAmplitude1Value>=100){ knobAmplitude1Value = 100; }
-    } else {
-        dragging = false;
-    }
-    console.log(dragging,knobAmplitude1Value, startX, startY);
+    
 
 
 }
@@ -53,6 +44,16 @@ function checkHover() {
         if(mouseY > button2Y && mouseY < button2Y+70) {knobAmplitude2Hover=true;} else { knobAmplitude2Hover=false;}
         if(mouseY > button3Y && mouseY < button3Y+70) {knobAmplitude3Hover=true;} else { knobAmplitude3Hover=false;}
     } else { knobAmplitude1Hover=false; knobAmplitude2Hover=false; knobAmplitude3Hover=false; }
+
+    if(mouseIsPressed) {
+        if(knobAmplitude1Hover) { if(!dragging){startX = mouseX; startY = mouseY} dragging = true; knobAmplitude1Value=10;}
+        
+        if(knobAmplitude1Value>0 && knobAmplitude1Value<100) { knobAmplitude1Value=(startY-mouseY); } 
+        else if(knobAmplitude1Value<=0){ knobAmplitude1Value = 0; }
+        else if(knobAmplitude1Value>=100){ knobAmplitude1Value = 100; }
+    } else {
+        dragging = false;
+    }
 }
 
 function tegnInteraktiv() { //tegner knapper og "knobs"
@@ -70,11 +71,11 @@ function tegnInteraktiv() { //tegner knapper og "knobs"
 
     //tegn knobs
     if(knobAmplitude1Hover) { fill(220) } else { fill (255) }
-    createKnob(25+button1X+10+150, 25+button1Y+10, 70);
+    createKnob(25+button1X+10+150, 25+button1Y+10, 70, 1, "amplitude");
     if(knobAmplitude2Hover) { fill(220) } else { fill (255) }
-    createKnob(25+button2X+10+150, 25+button2Y+10, 70);
+    createKnob(25+button2X+10+150, 25+button2Y+10, 70, 2, "amplitude");
     if(knobAmplitude3Hover) { fill(220) } else { fill (255) }
-    createKnob(25+button3X+10+150, 25+button3Y+10, 70);
+    createKnob(25+button3X+10+150, 25+button3Y+10, 70, 3, "amplitude");
 }
 
 //amplitude
@@ -89,18 +90,24 @@ function mouseClicked() {
     if(button3Hover){if(button3Active){button3Active=false;}else{button3Active=true;}} 
 }
 
-function mouseDragged() {
-    
-
-}
-
-function createKnob(x,y,d) { 
+function createKnob(x,y,d,n,t) { 
     circle(x, y, d);
-    linjeFraVinkel(x, y, 2, d/2);
+    linjeFraVinkel(x, y, 2, d/2); 
     linjeFraVinkel(x, y, 1, d/2);
-    fill(255,0,0);
-    if((2+(knobAmplitude1Value/100)*(2*PI-1))>=2 && (2+(knobAmplitude1Value/100)*(2*PI-1))<=(2*PI+1)) {
-        arc(x, y, 70, 70, 2, 2+(knobAmplitude1Value/100)*(2*PI-1));
+    if(n===1) {
+        if(t==="amplitude") { fill(255,0,0);
+            if((2+(knobAmplitude1Value/100)*(2*PI-1))>=2 && (2+(knobAmplitude1Value/100)*(2*PI-1))<=(2*PI+1)) {
+                arc(x, y, 70, 70, 2, 2+(knobAmplitude1Value/100)*(2*PI-1)); } }
+    }
+    else if(n===2) {
+        if(t==="amplitude") { fill(255,0,0);
+            if((2+(knobAmplitude2Value/100)*(2*PI-1))>=2 && (2+(knobAmplitude2Value/100)*(2*PI-1))<=(2*PI+1)) {
+                arc(x, y, 70, 70, 2, 2+(knobAmplitude2Value/100)*(2*PI-1)); } }
+    }
+    else if(n===3) {
+        if(t==="amplitude") { fill(255,0,0);
+            if((2+(knobAmplitude3Value/100)*(2*PI-1))>=2 && (2+(knobAmplitude3Value/100)*(2*PI-1))<=(2*PI+1)) {
+                arc(x, y, 70, 70, 2, 2+(knobAmplitude3Value/100)*(2*PI-1)); } }
     }
     fill(255); circle(x, y, d*0.7); 
 }

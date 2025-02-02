@@ -21,7 +21,7 @@ function setup() {
     knobHastighedX = 25+button1X+10+315;
     knobBølgelængdeX = 25+button1X+10+520;
 
-    button1Active = true;
+    button2Active = true;
 }
 
 function draw() {
@@ -41,7 +41,7 @@ function draw() {
 function tegnKurve() {
     tidSinus+=(((mainDisplayWidth-100)/10)/knobBølgelængde1Value/fps)*(knobHastighed1Value/10);
 
-    //tidSaw+=(((1/(opdelingKurve/100))/(knobBølgelængde2Value/10)-floor((1/(opdelingKurve/100))/(knobBølgelængde2Value/10)))/fps*(knobHastighed2Value/10))*(opdelingKurve/100);
+    tidSaw+=(((1/(opdelingKurve/100))/(knobBølgelængde2Value/10)-floor((1/(opdelingKurve/100))/(knobBølgelængde2Value/10)))/fps*(knobHastighed2Value/10))*(opdelingKurve/100);
 
     //tidSquare+=(((mainDisplayWidth-100)/10)/knobBølgelængde3Value/fps)*(knobHastighed3Value/10);
 
@@ -52,30 +52,14 @@ function tegnKurve() {
             fill(0); strokeWeight(0.2); circle(punktX,punktY,4);
         }
     }
-/*
-    for(let i = 0; i < opdelingKurve; i++) {
-        punktX = width/2-(mainDisplayWidth-100)/2+((mainDisplayWidth-100)/opdelingKurve)*i;
-        punktY = height/3+knobAmplitude2Value*(((mainDisplayheight-50)/2)/100)-((tidSaw+i/(opdelingKurve/100)/(knobBølgelængde2Value)*(inddelingX/10))-floor((tidSaw+i/(opdelingKurve/100)/(knobBølgelængde2Value)*(inddelingX/10))))/*amplitude:/*knobAmplitude2Value*2*(((mainDisplayheight-50)/2)/100);
-        fill(0); strokeWeight(0.2); circle(punktX,punktY,4);
-        
-        strokeWeight(2);
-        
-            line(
-            (knobBølgelængde2Value)*(inddelingX/10),
-            height/3-knobAmplitude2Value*(((mainDisplayheight-50)/2)/100),
-            punktX,
-            height/3+knobAmplitude2Value*(((mainDisplayheight-50)/2)/100));
-        
+    
+    if(button2Active) {
+        for(let i = 0; i < opdelingKurve; i++) {
+            punktX = width/2-(mainDisplayWidth-100)/2+((mainDisplayWidth-100)/opdelingKurve)*i;
+            punktY = height/3+knobAmplitude2Value*(((mainDisplayheight-50)/2)/100)-((tidSaw+i/(opdelingKurve/100)/(knobBølgelængde2Value)*(inddelingX/10))-floor((tidSaw+i/(opdelingKurve/100)/(knobBølgelængde2Value)*(inddelingX/10))))/*amplitude:*/*knobAmplitude2Value*2*(((mainDisplayheight-50)/2)/100);
+            fill(0); strokeWeight(0.2); circle(punktX,punktY,4);    
+        }
     }
-  */  
-    for(let i = 0; i < ((inddelingX*10)/knobBølgelængde2Value); i++) {
-        /*line(width/2-mainDisplayWidth/2+50+i*((mainDisplayWidth-100)/inddelingX)*(knobBølgelængde2Value/10)punktX
-        ,height/3-knobAmplitude2Value*(((mainDisplayheight-50)/2)/100),
-        width/2-mainDisplayWidth/2+50+i*((mainDisplayWidth-100)/inddelingX)*(knobBølgelængde2Value/10),height/3+knobAmplitude2Value*(((mainDisplayheight-50)/2)/100));*/
-    } 
-    
-    //console.log(i*(inddelingX/10))   
-    
 }
 
 function tegnDisplay() {

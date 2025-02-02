@@ -7,7 +7,7 @@ let sinusIcon; let sawIcon; let squareIcon;
 //amplitude knobs
 let knobAmplitude1Hover; let knobAmplitude1Value=50; let knobAmplitudeX;
 let knobAmplitude2Hover; let knobAmplitude2Value=50;
-let knobAmplitude3Hover; let knobAmplitude3Value=0;
+let knobAmplitude3Hover; let knobAmplitude3Value=50;
 //hastighed knobs
 let knobHastighed1Hover; let knobHastighed1Value=10; let knobHastighedX;
 let knobHastighed2Hover; let knobHastighed2Value=10;

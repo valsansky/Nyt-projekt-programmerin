@@ -1,10 +1,10 @@
 let inddelingX=10;
 let inddelingY=5;
-let opdelingKurve=250;
+let opdelingKurve=200;
 let mainDisplayWidth=700; let mainDisplayheight=300; let fps = 30;
 let punktX; let punktY;
 let tidSinus=0; let tidSaw=0; let tidSquare=0;
-let meterToPixelsY;
+let meterToPixelsY = (((mainDisplayheight-50)/2)/100);
 
 function preload() {
     sinusIcon = loadImage("assets/Sinus-wave.png");
@@ -22,9 +22,7 @@ function setup() {
     knobHastighedX = 25+button1X+10+315;
     knobBølgelængdeX = 25+button1X+10+520;
 
-    meterToPixelsY = (((mainDisplayheight-50)/2)/100);
-
-    button3Active = true; //button1Active = true;
+    button1Active=true;
 }
 
 function draw() {
@@ -44,33 +42,29 @@ function draw() {
 let topSquare; let bundSquare;
 
 function tegnKurve() {
-    tidSinus+=(((mainDisplayWidth-100)/10)/knobBølgelængde1Value/fps)*(knobHastighed1Value/10);
-
-    tidSaw+=(((1/(opdelingKurve/100))/(knobBølgelængde2Value/10)-floor((1/(opdelingKurve/100))/(knobBølgelængde2Value/10)))/fps*(knobHastighed2Value/10))*(opdelingKurve/100);
-
-    tidSquare+=((mainDisplayWidth-100)/10)/knobBølgelængde3Value/fps;
+    tidSinus+=((opdelingKurve/inddelingX)/fps)*(knobHastighed1Value/10);
+    tidSaw+=((opdelingKurve/inddelingX)/fps)*(knobHastighed2Value/10);
+    tidSquare+=((opdelingKurve/inddelingX)/fps)*(knobHastighed3Value/10);
 
     if(button1Active) {
         for(let i = 0; i < opdelingKurve; i++) {
             punktX = width/2-(mainDisplayWidth-100)/2+((mainDisplayWidth-100)/opdelingKurve)*i;
-            punktY = height/3+sin(tidSinus+i/(opdelingKurve/100)*(((2*PI)/knobBølgelængde1Value)*(inddelingX/10))) /*amplitude:*/*knobAmplitude1Value*meterToPixelsY;
+            punktY = height/3+sin((tidSinus+i)/(opdelingKurve/100)*(((2*PI)/knobBølgelængde1Value)*(inddelingX/10))) /*amplitude:*/*knobAmplitude1Value*meterToPixelsY;
             fill(0); strokeWeight(0.2); circle(punktX,punktY,4);
-        }
-    }
-    
+        } }
     if(button2Active) {
         for(let i = 0; i < opdelingKurve; i++) {
             punktX = width/2-(mainDisplayWidth-100)/2+((mainDisplayWidth-100)/opdelingKurve)*i;
-            punktY = height/3+knobAmplitude2Value*meterToPixelsY-((tidSaw+i/(opdelingKurve/100)/(knobBølgelængde2Value)*(inddelingX/10))-floor((tidSaw+i/(opdelingKurve/100)/(knobBølgelængde2Value)*(inddelingX/10))))/*amplitude:*/*knobAmplitude2Value*2*meterToPixelsY;
-            fill(0); strokeWeight(0.2); circle(punktX,punktY,4);    
-        }
-    }
-    if(button3Active) {
+            punktY = height/3+knobAmplitude2Value*meterToPixelsY-(((tidSaw+i)/(opdelingKurve/100)/(knobBølgelængde2Value)*(inddelingX/10))-floor(((tidSaw+i)/(opdelingKurve/100)/(knobBølgelængde2Value)*(inddelingX/10))))/*amplitude:*/*knobAmplitude2Value*2*meterToPixelsY;
+            fill(0); strokeWeight(0.2); circle(punktX,punktY,4); 
+            strokeWeight(2);
+            if(punktY<=height/3-knobAmplitude2Value*meterToPixelsY+(1/40)*knobAmplitude2Value) {line(punktX,height/3-knobAmplitude2Value*meterToPixelsY,punktX,height/3+ knobAmplitude2Value*meterToPixelsY)}   
+        } }     
+    if(button3Active) { 
         for(let i = 0; i < opdelingKurve; i++) {
             punktX = width/2-(mainDisplayWidth-100)/2+((mainDisplayWidth-100)/opdelingKurve)*i;
-            punktY = height/3-((knobAmplitude3Value*meterToPixelsY)*Math.sign(sin((2*PI*(tidSquare+i/(opdelingKurve/100)))/(knobBølgelængde3Value)*(inddelingX/10)))); 
+            punktY = height/3-((knobAmplitude3Value*meterToPixelsY)*Math.sign(sin((2*PI*((tidSquare+i)/(opdelingKurve/100)))/(knobBølgelængde3Value)*(inddelingX/10)))); 
             fill(0); strokeWeight(0.2); circle(punktX,punktY,4);
-            
             strokeWeight(2);
             if(punktY === height/3-(knobAmplitude3Value*meterToPixelsY)) {
                 if(punktX>=(width/2-mainDisplayWidth/2+52)&&bundSquare==true){line(punktX-((mainDisplayWidth-100)/opdelingKurve), height/3-knobAmplitude3Value*meterToPixelsY, punktX-((mainDisplayWidth-100)/opdelingKurve), height/3+knobAmplitude3Value*meterToPixelsY);}
@@ -79,12 +73,8 @@ function tegnKurve() {
                 if(punktX>=(width/2-mainDisplayWidth/2+52)&&topSquare==true){line(punktX-((mainDisplayWidth-100)/opdelingKurve), height/3-knobAmplitude3Value*meterToPixelsY, punktX-((mainDisplayWidth-100)/opdelingKurve), height/3+knobAmplitude3Value*meterToPixelsY);}
                 bundSquare = true; topSquare = false;   
             }
-            
-            //console.log(bundSquare, topSquare,height/3+(knobAmplitude3Value*meterToPixelsY), punktY)
-            
         }
     }
-    //noLoop();
 }
 
 function tegnDisplay() {

@@ -13,9 +13,9 @@ let knobHastighed1Hover; let knobHastighed1Value=10; let knobHastighedX;
 let knobHastighed2Hover; let knobHastighed2Value=10;
 let knobHastighed3Hover; let knobHastighed3Value=10;
 //bølgelængde knobs
-let knobBølgelængde1Hover; let knobBølgelængde1Value=40; let knobBølgelængdeX;
-let knobBølgelængde2Hover; let knobBølgelængde2Value=40;
-let knobBølgelængde3Hover; let knobBølgelængde3Value=40; 
+let knobBølgelængde1Hover; let knobBølgelængde1Value=50; let knobBølgelængdeX;
+let knobBølgelængde2Hover; let knobBølgelængde2Value=50;
+let knobBølgelængde3Hover; let knobBølgelængde3Value=50; 
 
 let startX; let startY;
 let type; let modify;

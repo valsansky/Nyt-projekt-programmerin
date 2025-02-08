@@ -22,7 +22,7 @@ function setup() {
     knobHastighedX = 25+button1X+10+315;
     knobBølgelængdeX = 25+button1X+10+520;
 
-    button1Active=true;
+    button1Active=true; //button2Active=true;
 }
 
 function draw() {
@@ -42,9 +42,9 @@ function draw() {
 let topSquare; let bundSquare;
 
 function tegnKurve() { 
-    tidSinus+=((opdelingKurve/inddelingX)/fps)*(knobHastighed1Value/10);
-    tidSaw+=((opdelingKurve/inddelingX)/fps)*(knobHastighed2Value/10);
-    tidSquare+=((opdelingKurve/inddelingX)/fps)*(knobHastighed3Value/10);
+    //tidSinus+=((opdelingKurve/inddelingX)/fps)*(knobHastighed1Value/10);
+    //tidSaw+=((opdelingKurve/inddelingX)/fps)*(knobHastighed2Value/10);
+    //tidSquare+=((opdelingKurve/inddelingX)/fps)*(knobHastighed3Value/10);
     /*
     if(button1Active) {
         for(let i = 0; i < opdelingKurve; i++) {
@@ -76,26 +76,36 @@ function tegnKurve() {
         }
     }*/
     
-    for(let i = 0; i < opdelingKurve; i++) {let sinusIndflydelse = 0; let sawIndflydelse = 0; let squareIndflydelse = 0; let phase = 0;
+    for(let i = 0; i < opdelingKurve; i++) {let sinusIndflydelse = 1; let sawIndflydelse = 1; let squareIndflydelse = 1; let phase = 0; let aktivAmplitude = 0;
     punktX = width/2-(mainDisplayWidth-100)/2+((mainDisplayWidth-100)/opdelingKurve)*i;
     punktY = height/3;
+    
     if(button1Active) {
-        sinusIndflydelse=sin((tidSinus+i)/(opdelingKurve/100)*(((2*PI)/knobBølgelængde1Value)*(inddelingX/10)))*knobAmplitude1Value*meterToPixelsY;
+        //sinusIndflydelse=(1+sin((tidSinus+i)/(opdelingKurve/100)*(((2*PI)/knobBølgelængde1Value)*(inddelingX/10))))*knobAmplitude1Value*meterToPixelsY;
+        sinusIndflydelse=(1+sin(2*PI*(knobHastighed1Value/knobBølgelængde1Value)*i))*knobAmplitude1Value*meterToPixelsY;
+        aktivAmplitude+=knobAmplitude1Value;
     }
     if(button2Active) {
-        sawIndflydelse=knobAmplitude2Value*meterToPixelsY-(((tidSaw+i)/(opdelingKurve/100)/(knobBølgelængde2Value)*(inddelingX/10))-floor(((tidSaw+i)/(opdelingKurve/100)/(knobBølgelængde2Value)*(inddelingX/10))))*knobAmplitude2Value*2*meterToPixelsY;
+        sawIndflydelse=(((tidSaw+i)/(opdelingKurve/100)/(knobBølgelængde2Value)*(inddelingX/10))-floor(((tidSaw+i)/(opdelingKurve/100)/(knobBølgelængde2Value)*(inddelingX/10))))*knobAmplitude2Value*2*meterToPixelsY;
+        aktivAmplitude+=knobAmplitude2Value;
     }
     if(button3Active) {
-        squareIndflydelse=((knobAmplitude3Value*meterToPixelsY)*Math.sign(sin((2*PI*((tidSquare+i)/(opdelingKurve/100)))/(knobBølgelængde3Value)*(inddelingX/10)))); 
+        squareIndflydelse=((knobAmplitude3Value*meterToPixelsY)*(1+Math.sign(sin((2*PI*((tidSquare+i)/(opdelingKurve/100)))/(knobBølgelængde3Value)*(inddelingX/10))))); 
+        aktivAmplitude+=knobAmplitude3Value;
     }   
 
     //UDREGN PHASE (phi)
-    //phase = 
+    //phase = 1;
+    /*Phase_sinus*/
+    
+    
+    
+    
     //UDREGN PUNKTY
     punktY = height/3-
-    sqrt(sinusIndflydelse**2+sawIndflydelse**2+squareIndflydelse**2+2*sinusIndflydelse*sawIndflydelse*squareIndflydelse*cos(10));
-    
-    
+    //sqrt(sinusIndflydelse**2+sawIndflydelse**2+squareIndflydelse**2+2*sinusIndflydelse*sawIndflydelse*squareIndflydelse*cos(-1))
+    sinusIndflydelse*sawIndflydelse;
+    ;
     fill(0); strokeWeight(0.2); circle(punktX,punktY,4); 
     }
 

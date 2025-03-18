@@ -4,6 +4,10 @@ let button1Hover; let button1Active; let button1X; let button1Y;
 let button2Hover; let button2Active; let button2X; let button2Y; 
 let button3Hover; let button3Active; let button3X; let button3Y; 
 let sinusIcon; let sawIcon; let squareIcon;
+
+let start; let pause; let playing = false; let buttonPlayingHover;
+let linkIcon; let buttonLinkHover; let link = true;
+let showPreview; let hidePreview; let wavePreview = false; let buttonWavePreviewHover;
 //amplitude knobs
 let knobAmplitude1Hover; let knobAmplitude1Value=50; let knobAmplitudeX;
 let knobAmplitude2Hover; let knobAmplitude2Value=50;
@@ -17,6 +21,7 @@ let knobBølgelængde1Hover; let knobBølgelængde1Value=50; let knobBølgelæng
 let knobBølgelængde2Hover; let knobBølgelængde2Value=50;
 let knobBølgelængde3Hover; let knobBølgelængde3Value=50; 
 
+//knob
 let startX; let startY;
 let type; let modify;
 let dragging;
@@ -28,6 +33,18 @@ function checkHover() {
         if(mouseY > button2Y && mouseY < button2Y+70) {button2Hover=true;} else { button2Hover=false;}
         if(mouseY > button3Y && mouseY < button3Y+70) {button3Hover=true;} else { button3Hover=false;}
     } else { button1Hover=false; button2Hover=false; button3Hover=false; }
+    //play-knap
+    if(mouseX>width/2+mainDisplayWidth/2+60&&mouseX<width/2+mainDisplayWidth/2+60+40&&mouseY>height/3-mainDisplayheight/2&&mouseY<height/3-mainDisplayheight/2+40) {
+        buttonPlayingHover = true;
+    } else {buttonPlayingHover = false;}
+    //link-knap
+    if(mouseX>width/2+mainDisplayWidth/2+60&&mouseX<width/2+mainDisplayWidth/2+60+40&&mouseY>height/3-mainDisplayheight/2+50&&mouseY<height/3-mainDisplayheight/2+40+50) {
+        buttonLinkHover = true;
+    } else {buttonLinkHover = false;}
+    //wave-Preview
+    if(mouseX>width/2+mainDisplayWidth/2+60&&mouseX<width/2+mainDisplayWidth/2+60+40&&mouseY>height/3-20&&mouseY<height/3+20) {
+        buttonWavePreviewHover = true;
+    } else {buttonWavePreviewHover = false;}
 
     //tjek over knobs
     if(mouseX > knobAmplitudeX-35 && mouseX < knobAmplitudeX+35) {
@@ -67,7 +84,15 @@ function checkHover() {
     } else { dragging = false; }
 }   
 
-
+//mustryk til opdatering af knapper
+function mouseClicked() {
+    if(button1Hover){if(button1Active){button1Active=false;}else{button1Active=true;}}
+    if(button2Hover){if(button2Active){button2Active=false;}else{button2Active=true;}}
+    if(button3Hover){if(button3Active){button3Active=false;}else{button3Active=true;}}
+    if(buttonPlayingHover){if(playing){playing=false;}else{playing=true;}}
+    if(buttonLinkHover){if(link){link=false;}else{link=true;}}
+    if(buttonWavePreviewHover){if(wavePreview){wavePreview=false;}else{wavePreview=true;}}
+}
 
 //opdatering af knob værdier. type kan være amplitude, hastighed eller bølgelængde
 function opdaterKnob(type, modify) {
@@ -97,57 +122,6 @@ function valueControl() { //sørger for at værdier aldrig kommer under 0 og ove
     if(knobBølgelængde1Value<=0){ knobBølgelængde1Value = 0.01; } else if(knobBølgelængde1Value>=100){ knobBølgelængde1Value = 100; }
     if(knobBølgelængde2Value<=0){ knobBølgelængde2Value = 0.01; } else if(knobBølgelængde2Value>=100){ knobBølgelængde2Value = 100; }
     if(knobBølgelængde3Value<=0){ knobBølgelængde3Value = 0.01; } else if(knobBølgelængde3Value>=100){ knobBølgelængde3Value = 100; }
-}
-
-//mustryk til opdatering af knapper
-function mouseClicked() {
-    if(button1Hover){if(button1Active){button1Active=false;}else{button1Active=true;}}
-    if(button2Hover){if(button2Active){button2Active=false;}else{button2Active=true;}}
-    if(button3Hover){if(button3Active){button3Active=false;}else{button3Active=true;}}
-}
-
-//interaktive elementer tegnes
-function tegnInteraktiv() {
-    strokeWeight(1);
-    //tegn knapper
-    if(button1Hover && button1Active) { fill(180) } else if(button1Hover || button1Active) { fill(220) } else { fill (255) }
-    rect(button1X, button1Y, 70, 70);
-    if(button2Hover && button2Active) { fill(180) } else if(button2Hover || button2Active) { fill(220) } else { fill (255) }
-    rect(button2X, button2Y, 70, 70);
-    if(button3Hover && button3Active) { fill(180) } else if(button3Hover || button3Active) { fill(220) } else { fill (255) }
-    rect(button3X, button3Y, 70, 70);
-    //ikoner til knapper
-    image(sinusIcon, button1X+10, button1Y+10, 50, 50);
-    image(sawIcon, button2X+10, button2Y+10,50,50);
-    image(squareIcon, button3X+10, button3Y+10,50,50);
-
-    //tegn knobs:
-    //amplitude
-    if(!dragging && knobAmplitude1Hover) { fill(220) } else { fill (255) }
-    createKnob(knobAmplitudeX, 25+button1Y+10, 70, 1, "amplitude");
-    if(!dragging && knobAmplitude2Hover) { fill(220) } else { fill (255) }
-    createKnob(knobAmplitudeX, 25+button2Y+10, 70, 2, "amplitude");
-    if(!dragging && knobAmplitude3Hover) { fill(220) } else { fill (255) }
-    createKnob(knobAmplitudeX, 25+button3Y+10, 70, 3, "amplitude");
-    //hastighed
-    if(!dragging && knobHastighed1Hover) { fill(220) } else { fill (255) }
-    createKnob(knobHastighedX, 25+button1Y+10, 70, 1, "hastighed");
-    if(!dragging && knobHastighed2Hover) { fill(220) } else { fill (255) }
-    createKnob(knobHastighedX, 25+button2Y+10, 70, 2, "hastighed");
-    if(!dragging && knobHastighed3Hover) { fill(220) } else { fill (255) }
-    createKnob(knobHastighedX, 25+button3Y+10, 70, 3, "hastighed");
-    //bølgelængde
-    if(!dragging && knobBølgelængde1Hover) { fill(220) } else { fill (255) }
-    createKnob(knobBølgelængdeX, 25+button1Y+10, 70, 1, "bølgelængde");
-    if(!dragging && knobBølgelængde2Hover) { fill(220) } else { fill (255) }
-    createKnob(knobBølgelængdeX, 25+button2Y+10, 70, 2, "bølgelængde");
-    if(!dragging && knobBølgelængde3Hover) { fill(220) } else { fill (255) }
-    createKnob(knobBølgelængdeX, 25+button3Y+10, 70, 3, "bølgelængde");
-
-    //titel til knobs  
-    fill(0); textSize(20); textAlign(CENTER, CENTER); textFont('Courier New'); text("AMPLITUDE",knobAmplitudeX, 25+button1Y+10-60);
-    fill(0); textSize(20); textAlign(CENTER, CENTER); textFont('Courier New'); text("HASTIGHED",knobHastighedX, 25+button1Y+10-60);
-    fill(0); textSize(20); textAlign(CENTER, CENTER); textFont('Courier New'); text("BØLGELÆNGDE",knobBølgelængdeX, 25+button1Y+10-60);
 }
 
 function createKnob(x,y,d,n,t) { 
@@ -188,4 +162,59 @@ function createKnob(x,y,d,n,t) {
                 arc(x, y, 70, 70, 2, 2+(knobBølgelængde3Value/100)*(2*PI-1)); } }
     }
     fill(255); circle(x, y, d*0.7); 
+}
+
+//interaktive elementer tegnes
+function tegnInteraktiv() {
+    strokeWeight(1); stroke(0);
+    //tegn knapper
+    if(button1Hover && button1Active) { fill(180) } else if(button1Hover || button1Active) { fill(220) } else { fill (255) }
+    rect(button1X, button1Y, 70, 70);
+    if(button2Hover && button2Active) { fill(180) } else if(button2Hover || button2Active) { fill(220) } else { fill (255) }
+    rect(button2X, button2Y, 70, 70);
+    if(button3Hover && button3Active) { fill(180) } else if(button3Hover || button3Active) { fill(220) } else { fill (255) }
+    rect(button3X, button3Y, 70, 70);
+    if(buttonPlayingHover) { fill(220) } else { fill (255) }
+    rect(width/2+mainDisplayWidth/2+60, height/3-mainDisplayheight/2, 40, 40)
+    if(buttonLinkHover && link) { fill(180) } else if(buttonLinkHover || link) { fill(220) } else { fill (255) }
+    rect(width/2+mainDisplayWidth/2+60, height/3-mainDisplayheight/2+50, 40, 40)
+    if(buttonWavePreviewHover) { fill(220) } else { fill (255) }
+    rect(width/2+mainDisplayWidth/2+60, height/3-20, 40, 40)
+
+    //ikoner til knapper
+    image(sinusIcon, button1X+10, button1Y+10, 50, 50);
+    image(sawIcon, button2X+10, button2Y+10,50,50);
+    image(squareIcon, button3X+10, button3Y+10,50,50);
+    if(playing) { image(start, width/2+mainDisplayWidth/2+60+2, height/3-mainDisplayheight/2+2, 36, 36)   
+    } else { image(pause, width/2+mainDisplayWidth/2+60+2, height/3-mainDisplayheight/2+2, 36, 36) }
+    image(linkIcon,width/2+mainDisplayWidth/2+60+2, height/3-mainDisplayheight/2+2+50,36,36);
+    if(wavePreview) { image(hidePreview, width/2+mainDisplayWidth/2+60+2, height/3-20+2, 36, 36)   
+    } else { image(showPreview, width/2+mainDisplayWidth/2+60+2, height/3-20+2, 36, 36) }
+    //tegn knobs:
+    //amplitude
+    if(!dragging && knobAmplitude1Hover) { fill(220) } else { fill (255) }
+    createKnob(knobAmplitudeX, 25+button1Y+10, 70, 1, "amplitude");
+    if(!dragging && knobAmplitude2Hover) { fill(220) } else { fill (255) }
+    createKnob(knobAmplitudeX, 25+button2Y+10, 70, 2, "amplitude");
+    if(!dragging && knobAmplitude3Hover) { fill(220) } else { fill (255) }
+    createKnob(knobAmplitudeX, 25+button3Y+10, 70, 3, "amplitude");
+    //hastighed
+    if(!dragging && knobHastighed1Hover) { fill(220) } else { fill (255) }
+    createKnob(knobHastighedX, 25+button1Y+10, 70, 1, "hastighed");
+    if(!dragging && knobHastighed2Hover) { fill(220) } else { fill (255) }
+    createKnob(knobHastighedX, 25+button2Y+10, 70, 2, "hastighed");
+    if(!dragging && knobHastighed3Hover) { fill(220) } else { fill (255) }
+    createKnob(knobHastighedX, 25+button3Y+10, 70, 3, "hastighed");
+    //bølgelængde
+    if(!dragging && knobBølgelængde1Hover) { fill(220) } else { fill (255) }
+    createKnob(knobBølgelængdeX, 25+button1Y+10, 70, 1, "bølgelængde");
+    if(!dragging && knobBølgelængde2Hover) { fill(220) } else { fill (255) }
+    createKnob(knobBølgelængdeX, 25+button2Y+10, 70, 2, "bølgelængde");
+    if(!dragging && knobBølgelængde3Hover) { fill(220) } else { fill (255) }
+    createKnob(knobBølgelængdeX, 25+button3Y+10, 70, 3, "bølgelængde");
+
+    //titel til knobs  
+    fill(0); textSize(20); textAlign(CENTER, CENTER); textFont('Courier New'); text("AMPLITUDE",knobAmplitudeX, 25+button1Y+10-60);
+    fill(0); textSize(20); textAlign(CENTER, CENTER); textFont('Courier New'); text("HASTIGHED",knobHastighedX, 25+button1Y+10-60);
+    fill(0); textSize(20); textAlign(CENTER, CENTER); textFont('Courier New'); text("BØLGELÆNGDE",knobBølgelængdeX, 25+button1Y+10-60);
 }

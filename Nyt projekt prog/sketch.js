@@ -188,7 +188,7 @@ function tegnDisplay() { stroke(0);
         if(y!==0) { stroke(10); text("-"+round(y/inddelingY,2), -20+width/2-mainDisplayheight, height/3+(((mainDisplayheight-50)/2)/inddelingY)*y); }
     } strokeWeight(1); stroke(1);
 }
-let test = 0;
+
 function skrivAktuelleVærdier() {
     textAlign(LEFT, CENTER);    
     text(`A: ${round(knobAmplitude1Value/100,2)} m`,knobAmplitudeX+35+6,button1Y+35);
@@ -203,11 +203,9 @@ function skrivAktuelleVærdier() {
     text(`\u03BB: ${round(knobBølgelængde2Value/10,1)} m`,knobBølgelængdeX+35+6,button2Y+35);
     text(`\u03BB: ${round(knobBølgelængde3Value/10,1)} m`,knobBølgelængdeX+35+6,button3Y+35);
 
-    text(`f: ${round(knobHastighed1Value/knobBølgelængde1Value,2)} Hz`,knobBølgelængdeX+35+100+6,button1Y+35-8);
-    text(`f: ${round(knobHastighed2Value/knobBølgelængde2Value,2)} Hz`,knobBølgelængdeX+35+100+6,button2Y+35-8);
-    text(`f: ${round(knobHastighed3Value/knobBølgelængde3Value,2)} Hz`,knobBølgelængdeX+35+100+6,button3Y+35-8);
-    test++;
-    text(`t: ${round(TWO_PI*(knobHastighed1Value/knobBølgelængde1Value)*tidSinus/100/2,2)}`,knobBølgelængdeX+35+100+6,button1Y+35+8)
+    text(`f: ${round(knobHastighed1Value/knobBølgelængde1Value,2)} Hz`,knobBølgelængdeX+35+100+6,button1Y+35);
+    text(`f: ${round(knobHastighed2Value/knobBølgelængde2Value,2)} Hz`,knobBølgelængdeX+35+100+6,button2Y+35);
+    text(`f: ${round(knobHastighed3Value/knobBølgelængde3Value,2)} Hz`,knobBølgelængdeX+35+100+6,button3Y+35);
 }
 
 function centerRect(x,y,w,h) {rect(x-w/2, y-h/2, w, h)}
